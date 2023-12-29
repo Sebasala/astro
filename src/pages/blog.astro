@@ -1,39 +1,22 @@
 ---
+import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPost from '../components/BlogPost.astro';
+import { getCollection } from 'astro:content';
+const allPosts = await getCollection('posts');
 const pageTitle = 'Blog';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} >
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <nav>
-        <a href="/">Home </a>
-        <a href="/about">About </a>
-        <a href="/blog">Blog </a>
-    </nav>
-    <h1>{pageTitle}</h1>
-    <section>
-        <article>
-            <h2><a href="/posts/post-1">Título del blog post 1</a></h2>
-            <p>Fecha de publicación</p>
-            <p>Resumen del blog post 1...</p>
-        </article>
-        <article>
-            <h2><a href="/posts/post-2">Título del blog post 2</a></h2>
-            <p>Fecha de publicación</p>
-            <p>Resumen del blog post 2...</p>
-        </article>
-        <article>
-          <h2><a href="/posts/post-3">Título del blog post 3</a></h2>
-          <p>Fecha de publicación</p>
-          <p>Resumen del blog post 3...</p>
-      </article>
-        <!-- Más entradas de blog -->
-    </section>
-  </body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+  <section>
+    {allPosts.map((post) => 
+      <BlogPost
+        description={post.data.description}
+        pubDate={post.data.pubDate} 
+        title={post.data.title}
+        url={`/posts/${post.slug}`}
+      />
+    )}
+    <!-- Más entradas de blog -->
+  </section>
+</BaseLayout>

@@ -1,0 +1,14 @@
+---
+const {
+    description,
+    pubDate,
+    title,
+    url,
+ } = Astro.props;
+---
+
+<article>
+    <h2><a href={url}>{title}</a></h2>
+    <p>Fecha de publicación: {pubDate.toString().slice(0,10)}</p>
+    <p>{description}</p>
+</article>
